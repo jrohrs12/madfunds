@@ -1,5 +1,5 @@
-import FundView from "@/components/FundView";
+import FundCard from "@/components/FundView";
 
 export default function FundraiserView() {
-  return <FundView />;
+  return <FundCard />;
 }

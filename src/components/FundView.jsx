@@ -1,3 +1,5 @@
+import FundCard from "./FundCard";
+
 export default function FundView() {
-  return <FundView name="New Fundraiser"  goal="100" />;
+  return <FundCard />;
 }
