@@ -1,6 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
+import { contractIdContextProvider } from "@/contexts/contractIdContext";
+import { useMemo } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,12 +12,35 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const getContractId = () => {
+    const res = fetch("/api/make-fundraiser", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // name: name,
+        // goal: goal,
+      }),
+    });
+    if (res.status === 200) {
+      alert("Constructor success");
+      router.push(`/FundraiserView`);
+    } else {
+      alert("Constructor fail");
+    }
+  };
+
+  const contractId = useMemo(getContractId(), []);
+
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        {<Nav />}
-        {children}
-      </body>
-    </html>
+    <contractIdContextProvider value={contractId}>
+      <html lang="en">
+        <body className={inter.className}>
+          {<Nav />}
+          {children}
+        </body>
+      </html>
+    </contractIdContextProvider>
   );
 }
