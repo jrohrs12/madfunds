@@ -9,9 +9,13 @@ contract FundraiserContract {
     }
 
     mapping(uint => Fundraiser) public fundraisers;
-    uint public nextId = 1;
+    uint public nextId;
 
-    constructor(string memory _name, uint _goal) {
+    constructor() {
+        nextId = 0;
+    }
+
+    function addFundraiser(string memory _name, uint _goal) public {
         fundraisers[nextId] = Fundraiser({
             name: _name,
             goal: _goal,
