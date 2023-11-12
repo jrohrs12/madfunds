@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function FundView() {
-  return;
+  return <h1>Fundraiser View</h1>;
 }

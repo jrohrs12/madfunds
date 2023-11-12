@@ -3,15 +3,34 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useRouter } from "next/navigation";
+import { useId } from "react";
 
 export default function Fundraiser() {
   const [name, setName] = useState("");
-  const [goal, setGoal] = useState();
+  const [goal, setGoal] = useState(0);
   const [errMessage, setErrMessage] = useState("");
   const router = useRouter();
   const [fundraiserData, setFundraiserData] = useState([]);
-  const handleSubmit = () => {
-    router.push("/FundraiserView");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const res = await fetch("/api/make-fundraiser", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        goal: goal,
+      }),
+    });
+    if (res.status === 200) {
+      alert("Fundraiser created success");
+      router.push(`/FundraiserView/`);
+    } else {
+      alert("Fundraiser creation failed");
+    }
   };
 
   return (

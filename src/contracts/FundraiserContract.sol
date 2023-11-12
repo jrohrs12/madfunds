@@ -9,9 +9,15 @@ contract FundraiserContract {
     }
 
     mapping(uint => Fundraiser) public fundraisers;
+    uint public nextId = 1;
 
-    constructor(uint _id, string memory _name, uint _goal) {
-        fundraisers[_id] = Fundraiser({name: _name, goal: _goal, current: 0});
+    constructor(string memory _name, uint _goal) {
+        fundraisers[nextId] = Fundraiser({
+            name: _name,
+            goal: _goal,
+            current: 0
+        });
+        nextId++;
     }
 
     function getFundraiser(uint _id) public view returns (Fundraiser memory) {

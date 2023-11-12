@@ -2,6 +2,6 @@
 
 import FundForm from "src/components/FundForm.jsx";
 
-export default function Fundraiser() {
+export default function StartFundraiser() {
   return <FundForm />;
 }
