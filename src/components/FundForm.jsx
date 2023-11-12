@@ -4,7 +4,7 @@ import React, { useContext, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import { useId } from "react";
-import { useContractIdContext } from "@/contexts/contractIdContext";
+import contractIdContext from "@/contexts/contractIdContext";
 
 export default function Fundraiser() {
   const [name, setName] = useState("");
@@ -12,7 +12,7 @@ export default function Fundraiser() {
   const [errMessage, setErrMessage] = useState("");
   const router = useRouter();
   const [fundraiserData, setFundraiserData] = useState([]);
-  const contractId = useContractIdContext();
+  const contractId = useContext(contractIdContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

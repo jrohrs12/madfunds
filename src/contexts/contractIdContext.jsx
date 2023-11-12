@@ -1,17 +1,5 @@
-"use client";
-
-import React, { createContext, useContext } from "react";
+import { createContext } from "react";
 
 const contractIdContext = createContext();
 
-export function contractIdContextProvider({ children, value }) {
-  return (
-    <contractIdContext.Provider value={value}>
-      {children}
-    </contractIdContext.Provider>
-  );
-}
-
-export function useContractIdContext() {
-  return useContext(contractIdContext);
-}
+export default contractIdContext;
