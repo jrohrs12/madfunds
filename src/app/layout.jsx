@@ -4,30 +4,39 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import contractIdContext from "@/contexts/contractIdContext";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
-  const getContractId = async () => {
-    const res = await fetch("/api/fundraiser-constructor");
+  const [contractIdState, setContractIdState] = useState();
+  const fetchContractId = async () => {
+    const res = await fetch("http://localhost:3000/api/fundraiser-constructor");
     if (res.status === 200) {
-      alert("Constructor success");
+      // src\app\api\fundraiser-constructor
+      //alert("Constructor success");
       //console.log(res);
       const data = await res.json();
       console.log(data);
+
       return data.contractId;
     } else {
-      alert("Constructor fail");
+      //alert("Constructor fail");
     }
   };
 
-  const contractId = useMemo(() => getContractId(), []);
-
+  useEffect(() => {
+    const getContractId = async () => {
+      setContractIdState(await fetchContractId());
+    };
+    if (!contractIdState) {
+      getContractId();
+    }
+  });
   //console.log(contractId);
 
   return (
-    <contractIdContext.Provider value={contractId}>
+    <contractIdContext.Provider value={contractIdState}>
       <html lang="en">
         <body className={inter.className}>
           {<Nav />}

@@ -16,7 +16,7 @@ export default function Fundraiser() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(contractId);
     const res = await fetch("/api/make-fundraiser", {
       method: "POST",
       headers: {
