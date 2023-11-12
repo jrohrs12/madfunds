@@ -6,10 +6,7 @@ const {
   AccountId,
   PrivateKey,
   Client,
-  FileCreateTransaction,
-  ContractCreateTransaction,
   ContractFunctionParameters,
-  ContractExecuteTransaction,
   ContractCallQuery,
   Hbar,
 } = require("@hashgraph/sdk");
@@ -23,29 +20,17 @@ const client = Client.forTestnet().setOperator(operatorId, operatorKey);
 
 export async function GET(req) {
   // Get the given data from search params
-  const id = parseInt(req.query.id);
+  const id = req.query.id;
+  const contractId = req.query.contractId;
 
-  console.log("id fail");
-
-  if (!id) {
-    return NextResponse.json(
-        {
-          message: "Bad input stoopid",
-        },
-        {
-          status: 400,
-        }
-      );
+  if (!id || !contractId) {
+    return NextResponse.json({ message: "Invalid input" }, { status: 400 });
   }
 
   // Query the smart contract
   const contractQueryTx = new ContractCallQuery()
-    .setContractId(contractIds[id])
-    .setGas(100000)
-    .setFunction(
-      "getFundraiser",
-      new ContractFunctionParameters().addUint256(id)
-    )
+    .setContractId(contractId)
+    .setGas(100000).setFunction("getFundraiser", new ContractFunctionParameters().addUint256(id))
     .setMaxQueryPayment(new Hbar.fromTinybars(1));
   const contractQuerySubmit = await contractQueryTx.execute(client);
   const contractQueryResult = contractQuerySubmit.getStruct("Fundraiser");
@@ -53,6 +38,7 @@ export async function GET(req) {
   return NextResponse.json(
     {
       message: "Success",
+      fundraiser: contractQueryResult,
     },
     {
       status: 200,
