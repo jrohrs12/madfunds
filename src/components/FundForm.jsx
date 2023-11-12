@@ -27,7 +27,7 @@ export default function Fundraiser() {
     });
     if (res.status === 200) {
       alert("Fundraiser created success");
-      router.push(`/FundraiserView/`);
+      router.push(`/FundraiserView`);
     } else {
       alert("Fundraiser creation failed");
     }
